@@ -1,1 +1,0 @@
-# game-tech-solo-project
