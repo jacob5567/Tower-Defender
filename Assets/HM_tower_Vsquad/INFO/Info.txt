@@ -1,0 +1,40 @@
+Mail for technical support - vsquad.info@gmail.com
+
+Average polycount 1500 - 2500 tris
+Textures - diffuse 1024*1024
+
+
+How to set up your own simple tower defence scene
+
+1. Import an asset to Unity 2018.1.0 or above
+
+2. Check Info_1 picture. Just drag and drop technical prefabs - Gate, Waypoint and Castle.
+
+Gate is our spown enemy place. 
+
+WayPoint is an intermediate place (in case if you have way with turns). You can dublicate 
+these WayPoints as many as you want. After dublicating - you should add them to WaveSpawn script in Gate ( check info_3 picture )
+Size - it`s how many waypoints you want to have except the castle. After choosing an amount of waypoints just drag and drop new waypoints from
+Hierarchy to new rows in script
+
+Castle is our finish place for enemies
+
+ZONE in every tower means shooting range. Just scale it up if you need
+
+IMPORTANT. After placing these cubes you have to apply changes to your prefabs of these cubes. Then enemies will go right
+
+
+Info_1 - it`s common picture about placing technical cubes
+
+Info_2 - It`s our lighting settings
+
+Info_3 - It`s more difficult description about scripts. How to assign them to the towers. And how to set up
+Probably you want to assign it to your own tower?
+
+
+
+
+
+
+
+
