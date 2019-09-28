@@ -11,7 +11,7 @@ public class EnemyScript : MonoBehaviour
     NavMeshAgent nmAgent;
     private bool atTower;
 
-    private float TOWER_ATTACK_DISTANCE = 3.5f;
+    private const float TOWER_ATTACK_DISTANCE = 3.5f;
 
     // Use this for initialization
     void Start()
@@ -29,7 +29,6 @@ public class EnemyScript : MonoBehaviour
     {
         nmAgent.SetDestination(tower.transform.position); //Tell enemy what to follow
         Vector3 difference = tower.transform.position - transform.position;
-        Debug.Log(difference.magnitude);
         if (difference.magnitude < TOWER_ATTACK_DISTANCE && atTower == false)
         {
             atTower = true;
