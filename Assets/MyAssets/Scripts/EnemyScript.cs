@@ -7,7 +7,11 @@ public class EnemyScript : MonoBehaviour
 {
     Animator theAnimator;
     public GameObject player;
+    public GameObject tower;
     NavMeshAgent nmAgent;
+    private bool atTower;
+
+    private float TOWER_ATTACK_DISTANCE = 3.5f;
 
     // Use this for initialization
     void Start()
@@ -23,18 +27,30 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        nmAgent.SetDestination(player.transform.position); //Tell enemy what to follow
+        nmAgent.SetDestination(tower.transform.position); //Tell enemy what to follow
+        Vector3 difference = tower.transform.position - transform.position;
+        Debug.Log(difference.magnitude);
+        if (difference.magnitude < TOWER_ATTACK_DISTANCE && atTower == false)
+        {
+            atTower = true;
+            nmAgent.speed = 0;
+            theAnimator.SetFloat("Speed", 0);
+            theAnimator.SetBool("Attacking", true);
+        }
+        if (difference.magnitude > TOWER_ATTACK_DISTANCE)
+        {
+            atTower = false;
+            theAnimator.SetBool("Attacking", false);
+        }
     }
 
     public void startWalking()
     {
-        Debug.Log("here");
         theAnimator.SetFloat("Speed", 1);
     }
 
     public void stopWalking()
     {
-        Debug.Log("here2");
         theAnimator.SetFloat("Speed", 0);
     }
 }
