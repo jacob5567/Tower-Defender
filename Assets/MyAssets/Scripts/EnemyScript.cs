@@ -1,27 +1,29 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 public class EnemyScript : MonoBehaviour
 {
     Animator theAnimator;
-    int count;
+    public GameObject player;
+    NavMeshAgent nmAgent;
 
     // Use this for initialization
     void Start()
     {
         theAnimator = GetComponent<Animator>(); //get handle to the Animator
+        nmAgent = GetComponent<NavMeshAgent>(); //Tell enemy what mesh to use
         theAnimator.SetFloat("Speed", 0);
         theAnimator.SetFloat("Direction", 0.5f);
-        count = 0;
+        nmAgent.speed = 2;
+        this.startWalking();
     }
 
     // Update is called once per frame
     void Update()
     {
-        count++;
-        if (count == 500)
-            this.startWalking();
-        else if (count == 1000)
-            this.stopWalking();
+        nmAgent.SetDestination(player.transform.position); //Tell enemy what to follow
     }
 
     public void startWalking()
