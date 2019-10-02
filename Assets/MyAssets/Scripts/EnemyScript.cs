@@ -10,12 +10,17 @@ public class EnemyScript : MonoBehaviour
     public GameObject tower;
     NavMeshAgent nmAgent;
     private bool atTower;
+    public GameObject checkpoints;
+
+    private int currentCheckpointNum;
+    private Vector3 currentDestination;
 
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
 
     // Use this for initialization
     void Start()
     {
+        currentCheckpointNum = 0;
         theAnimator = GetComponent<Animator>(); //get handle to the Animator
         nmAgent = GetComponent<NavMeshAgent>(); //Tell enemy what mesh to use
         theAnimator.SetFloat("Speed", 0);
@@ -27,16 +32,28 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        nmAgent.SetDestination(tower.transform.position); //Tell enemy what to follow
-        Vector3 difference = tower.transform.position - transform.position;
-        if (difference.magnitude < TOWER_ATTACK_DISTANCE && atTower == false)
+        // Debug.Log(currentCheckpointNum);
+        if (currentCheckpointNum < checkpoints.GetComponent<CheckpointsScript>().getNumCheckpoints())
+        {
+            currentDestination = checkpoints.GetComponent<CheckpointsScript>().getNextCheckpoint(currentCheckpointNum);
+            nmAgent.SetDestination(currentDestination); //Tell enemy what to follow
+            Vector3 distanceToCheckpoint = currentDestination - transform.position;
+            if (distanceToCheckpoint.magnitude < 1.0f)
+                currentCheckpointNum++;
+        }
+        else
+        {
+            nmAgent.SetDestination(tower.transform.position); //Tell enemy what to follow
+        }
+        Vector3 distanceToTower = tower.transform.position - transform.position;
+        if (distanceToTower.magnitude < TOWER_ATTACK_DISTANCE && atTower == false)
         {
             atTower = true;
             nmAgent.speed = 0;
             theAnimator.SetFloat("Speed", 0);
             theAnimator.SetBool("Attacking", true);
         }
-        if (difference.magnitude > TOWER_ATTACK_DISTANCE)
+        if (distanceToTower.magnitude > TOWER_ATTACK_DISTANCE)
         {
             atTower = false;
             theAnimator.SetBool("Attacking", false);
