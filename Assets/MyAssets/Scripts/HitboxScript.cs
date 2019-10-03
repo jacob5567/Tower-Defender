@@ -20,4 +20,5 @@ public class HitboxScript : MonoBehaviour
     {
         transform.parent.gameObject.GetComponent<EnemyScript>().hit(DamageAmount);
     }
+
 }

@@ -47,14 +47,14 @@ public class EnemyScript : MonoBehaviour
         if (currentCheckpointNum < checkpoints.GetComponent<CheckpointsScript>().getNumCheckpoints())
         {
             currentDestination = checkpoints.GetComponent<CheckpointsScript>().getNextCheckpoint(currentCheckpointNum);
-            nmAgent.SetDestination(currentDestination); //Tell enemy what to follow
+            nmAgent.SetDestination(currentDestination); // enemy follows next checkpoint
             Vector3 distanceToCheckpoint = currentDestination - transform.position;
             if (distanceToCheckpoint.magnitude < 1.0f)
                 currentCheckpointNum++;
         }
         else
         {
-            nmAgent.SetDestination(tower.transform.position); //Tell enemy what to follow
+            nmAgent.SetDestination(tower.transform.position); // enemy now follows the tower
         }
         Vector3 distanceToTower = tower.transform.position - transform.position;
         if (distanceToTower.magnitude < TOWER_ATTACK_DISTANCE && atTower == false)
@@ -96,5 +96,20 @@ public class EnemyScript : MonoBehaviour
     {
         Debug.Log("hit");
         health -= DamageAmount;
+    }
+
+    public void SetPlayer(GameObject toSet)
+    {
+        player = toSet;
+    }
+
+    public void SetTower(GameObject toSet)
+    {
+        tower = toSet;
+    }
+
+    public void SetCheckpoints(GameObject toSet)
+    {
+        checkpoints = toSet;
     }
 }
