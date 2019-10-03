@@ -32,7 +32,7 @@ public class EnemyScript : MonoBehaviour
         theAnimator.SetFloat("Speed", 0);
         theAnimator.SetFloat("Direction", 0.5f);
         this.gameObject.transform.GetChild(2).GetComponent<Renderer>().enabled = false;
-        nmAgent.speed = 15;
+        nmAgent.speed = 2;
         this.startWalking();
     }
 
@@ -94,6 +94,7 @@ public class EnemyScript : MonoBehaviour
 
     public void hit(int DamageAmount)
     {
+        Debug.Log("hit");
         health -= DamageAmount;
     }
 }
