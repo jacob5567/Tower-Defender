@@ -6,12 +6,12 @@ public class TurretScript : MonoBehaviour
 {
     private const float FIRING_SPEED = 1f;
     Animator theAnimator;
-    private bool isFiring;
+    // private bool isFiring;
 
     // Start is called before the first frame update
     void Start()
     {
-        isFiring = false;
+        // isFiring = false;
         theAnimator = GetComponent<Animator>();
         theAnimator.SetFloat("FiringSpeed", 0f);
         this.StartFiring();
@@ -25,15 +25,21 @@ public class TurretScript : MonoBehaviour
 
     public void StartFiring()
     {
-        isFiring = true;
+        // isFiring = true;
         theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
         Debug.Log("start");
     }
 
     public void StopFiring()
     {
-        isFiring = false;
+        // isFiring = false;
         theAnimator.SetFloat("FiringSpeed", 0f);
         Debug.Log("stop");
+    }
+
+    public void DeductHealth(int DamageAmount)
+    {
+        Debug.Log("hit on turret");
+        // health -= DamageAmount;
     }
 }

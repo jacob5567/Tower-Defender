@@ -5,18 +5,22 @@ using UnityEngine;
 public class GunshotScript : MonoBehaviour
 {
     private const int COOLDOWN = 10;
+    private const int DAMAGE = 20;
+    private const int RANGE = 15;
+    public float targetDistance;
     private AudioSource gunSound;
     private Animation gunShotAnim;
-    private int cooldown;
+    public GameObject player;
+    public int cooldown;
+    int layerMask = 1 << 8;
 
     // Start is called before the first frame update
     void Start()
     {
+        layerMask = ~layerMask;
         cooldown = 0;
         gunSound = GetComponent<AudioSource>();
         gunShotAnim = GetComponent<Animation>();
-
-
     }
 
     // Update is called once per frame
@@ -25,6 +29,21 @@ public class GunshotScript : MonoBehaviour
         cooldown--;
         if (Input.GetButtonDown("Fire1") && cooldown <= 0)
         {
+            // damage stuff
+            RaycastHit shot;
+            if (Physics.Raycast(player.transform.position, player.transform.TransformDirection(Vector3.forward), out shot, RANGE))
+            {
+                targetDistance = shot.distance;
+                Debug.DrawRay(player.transform.position, player.transform.TransformDirection(Vector3.forward) * shot.distance, Color.yellow);
+                Debug.Log("Did Hit");
+                if (targetDistance < RANGE)
+                {
+                    shot.transform.SendMessage("DeductHealth", DAMAGE);
+                }
+            }
+
+
+            // sound and animation stuff
             gunSound.Play();
             gunShotAnim.Play("Gunshot");
             cooldown = COOLDOWN;
