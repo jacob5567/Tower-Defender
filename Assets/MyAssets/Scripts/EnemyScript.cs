@@ -17,18 +17,22 @@ public class EnemyScript : MonoBehaviour
     private int currentCheckpointNum;
     private Vector3 currentDestination;
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
+    private const int ATTACK_CYCLE_LENGTH = 140;
+    private const int DAMAGE_TO_TOWER = 10;
+    private int attackCycleLocation;
 
     // Use this for initialization
     void Start()
     {
         health = STARTING_HEALTH;
         currentCheckpointNum = 0;
+        attackCycleLocation = -1;
         theAnimator = GetComponent<Animator>(); //get handle to the Animator
         nmAgent = GetComponent<NavMeshAgent>(); //Tell enemy what mesh to use
         theAnimator.SetFloat("Speed", 0);
         theAnimator.SetFloat("Direction", 0.5f);
         this.gameObject.transform.GetChild(2).GetComponent<Renderer>().enabled = false;
-        nmAgent.speed = 2;
+        nmAgent.speed = 15;
         this.startWalking();
     }
 
@@ -59,6 +63,16 @@ public class EnemyScript : MonoBehaviour
             nmAgent.speed = 0;
             theAnimator.SetFloat("Speed", 0);
             theAnimator.SetBool("Attacking", true);
+            attackCycleLocation = ATTACK_CYCLE_LENGTH;
+        }
+        else if (distanceToTower.magnitude < TOWER_ATTACK_DISTANCE && atTower == true)
+        {
+            if (attackCycleLocation <= 0)
+            {
+                attackCycleLocation = ATTACK_CYCLE_LENGTH;
+                tower.GetComponent<TowerScript>().decreaseHealth(DAMAGE_TO_TOWER);
+            }
+            attackCycleLocation--;
         }
         if (distanceToTower.magnitude > TOWER_ATTACK_DISTANCE)
         {
