@@ -36,10 +36,4 @@ public class TurretScript : MonoBehaviour
         theAnimator.SetFloat("FiringSpeed", 0f);
         Debug.Log("stop");
     }
-
-    public void DeductHealth(int DamageAmount)
-    {
-        Debug.Log("hit on turret");
-        // health -= DamageAmount;
-    }
 }

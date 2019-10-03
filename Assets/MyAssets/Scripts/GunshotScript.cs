@@ -35,10 +35,9 @@ public class GunshotScript : MonoBehaviour
             {
                 targetDistance = shot.distance;
                 Debug.DrawRay(player.transform.position, player.transform.TransformDirection(Vector3.forward) * shot.distance, Color.yellow);
-                Debug.Log("Did Hit");
                 if (targetDistance < RANGE)
                 {
-                    shot.transform.SendMessage("DeductHealth", DAMAGE);
+                    shot.transform.SendMessage("DeductHealth", DAMAGE, SendMessageOptions.DontRequireReceiver);
                 }
             }
 
