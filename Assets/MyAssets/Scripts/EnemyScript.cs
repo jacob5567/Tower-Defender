@@ -13,13 +13,13 @@ public class EnemyScript : MonoBehaviour
     public GameObject checkpoints;
     int health;
     private const int STARTING_HEALTH = 100;
-
     private int currentCheckpointNum;
     private Vector3 currentDestination;
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
     private const int ATTACK_CYCLE_LENGTH = 140;
     private const int DAMAGE_TO_TOWER = 10;
     private int attackCycleLocation;
+    private int index;
 
     // Use this for initialization
     void Start()
@@ -41,7 +41,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (health <= 0)
         {
-            stopWalking();
+            die();
         }
         // Debug.Log(currentCheckpointNum);
         if (currentCheckpointNum < checkpoints.GetComponent<CheckpointsScript>().getNumCheckpoints())
@@ -92,9 +92,15 @@ public class EnemyScript : MonoBehaviour
         nmAgent.speed = 0;
     }
 
+    public void die()
+    {
+        nmAgent.speed = 0;
+        theAnimator.SetBool("Dead", true);
+        GameObject.Find("EnemyGroupCenter").GetComponent<EnemyGroupScript>().killAnEnemy(this.index);
+    }
+
     public void hit(int DamageAmount)
     {
-        Debug.Log("hit");
         health -= DamageAmount;
     }
 
@@ -111,5 +117,10 @@ public class EnemyScript : MonoBehaviour
     public void SetCheckpoints(GameObject toSet)
     {
         checkpoints = toSet;
+    }
+
+    public void SetIndex(int i)
+    {
+        index = i;
     }
 }

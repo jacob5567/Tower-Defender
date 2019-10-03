@@ -5,7 +5,6 @@ public class EnemyGroupScript : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     public int totalEnemies;
-    public int groupLength;
     public GameObject player;
     public GameObject tower;
     public GameObject checkpoints;
@@ -14,6 +13,7 @@ public class EnemyGroupScript : MonoBehaviour
     private int spawnTimer;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+    private int currentIndex;
 
     public void generateEnemy()
     {
@@ -24,11 +24,16 @@ public class EnemyGroupScript : MonoBehaviour
         enemy.GetComponent<EnemyScript>().SetPlayer(player);
         enemy.GetComponent<EnemyScript>().SetTower(tower);
         enemy.GetComponent<EnemyScript>().SetCheckpoints(checkpoints);
+        enemy.GetComponent<EnemyScript>().SetIndex(currentIndex);
+        currentIndex++;
+        totalEnemies++;
         enemyList.Add(enemy); //Add the new enemy to the List
     }
 
     void Start()
     {
+        totalEnemies = 0;
+        currentIndex = 0;
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
         enemyList = new List<GameObject>();
@@ -57,5 +62,13 @@ public class EnemyGroupScript : MonoBehaviour
         {
             enemyList[i].GetComponent<EnemyScript>().startWalking();
         }
+    }
+
+    public void killAnEnemy(int i)
+    {
+        GameObject deadEnemy = enemyList[i];
+        // enemyList.RemoveAt(i);
+        // totalEnemies--;
+        Destroy(deadEnemy, 0.5f);
     }
 }
