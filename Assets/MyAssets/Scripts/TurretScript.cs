@@ -11,6 +11,7 @@ public class TurretScript : MonoBehaviour
     private GameObject currentTarget;
     private const int DAMAGE = 10;
     private const int FIRE_COOLDOWN_TIME = 30;
+    private const float RANGE = 10f;
     private int cooldown;
     public GameObject targetingLine;
     // private bool isFiring;
@@ -42,7 +43,7 @@ public class TurretScript : MonoBehaviour
                 closestChild = child;
             }
         }
-        if (closestChild != null)
+        if (closestChild != null && minimumDistance <= RANGE)
         {
             Vector3 targetPosition = new Vector3(closestChild.position.x, this.transform.position.y, closestChild.position.z);
             targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, minimumDistance));
