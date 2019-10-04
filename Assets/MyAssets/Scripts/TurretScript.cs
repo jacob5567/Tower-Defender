@@ -35,6 +35,11 @@ public class TurretScript : MonoBehaviour
                 fireCooldownTime = 3;
                 range = 10f;
                 break;
+            case 4:
+                damage = 3;
+                fireCooldownTime = 3;
+                range = 20f;
+                break;
             default:
                 damage = 10;
                 fireCooldownTime = 30;
