@@ -12,6 +12,7 @@ public class TurretScript : MonoBehaviour
     private const int DAMAGE = 10;
     private const int FIRE_COOLDOWN_TIME = 30;
     private int cooldown;
+    public GameObject targetingLine;
     // private bool isFiring;
 
     // Start is called before the first frame update
@@ -44,6 +45,7 @@ public class TurretScript : MonoBehaviour
         if (closestChild != null)
         {
             Vector3 targetPosition = new Vector3(closestChild.position.x, this.transform.position.y, closestChild.position.z);
+            targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, minimumDistance));
             transform.LookAt(targetPosition);
             if (cooldown < 0)
             {
@@ -53,7 +55,10 @@ public class TurretScript : MonoBehaviour
             this.StartFiring();
         }
         else
+        {
+            targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, 0));
             this.StopFiring();
+        }
     }
 
     public void StartFiring()
