@@ -14,12 +14,16 @@ public class TurretScript : MonoBehaviour
     private const float RANGE = 10f;
     private int cooldown;
     public GameObject targetingLine;
+    private AudioSource firingSound;
+    private bool audioToggle;
     // private bool isFiring;
 
     // Start is called before the first frame update
     void Start()
     {
         // isFiring = false;
+        firingSound = GetComponent<AudioSource>();
+        audioToggle = false;
         cooldown = 0;
         theAnimator = GetComponent<Animator>();
         theAnimator.SetFloat("FiringSpeed", 0f);
@@ -66,11 +70,18 @@ public class TurretScript : MonoBehaviour
     {
         // isFiring = true;
         theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
+        if (!audioToggle)
+        {
+            firingSound.Play(0);
+            audioToggle = true;
+        }
     }
 
     public void StopFiring()
     {
         // isFiring = false;
         theAnimator.SetFloat("FiringSpeed", 0f);
+        firingSound.Pause();
+        audioToggle = false;
     }
 }
