@@ -21,6 +21,7 @@ public class EnemyGroupScript : MonoBehaviour
         GameObject enemy;
         //Create a new EnemyPrefab at enemyPos with the same orientation as Main Camera
         enemy = (GameObject)Instantiate(EnemyPrefab, spawnPosition, spawnRotation);
+        enemy.transform.parent = this.transform;
         enemy.GetComponent<EnemyScript>().SetPlayer(player);
         enemy.GetComponent<EnemyScript>().SetTower(tower);
         enemy.GetComponent<EnemyScript>().SetCheckpoints(checkpoints);
