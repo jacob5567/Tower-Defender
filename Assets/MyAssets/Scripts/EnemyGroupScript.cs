@@ -67,8 +67,6 @@ public class EnemyGroupScript : MonoBehaviour
     public void killAnEnemy(int i)
     {
         GameObject deadEnemy = enemyList[i];
-        // enemyList.RemoveAt(i);
-        // totalEnemies--;
         Destroy(deadEnemy, 0.5f);
     }
 }

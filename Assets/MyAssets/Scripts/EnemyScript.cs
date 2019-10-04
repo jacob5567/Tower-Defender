@@ -12,7 +12,7 @@ public class EnemyScript : MonoBehaviour
     private bool atTower;
     public GameObject checkpoints;
     int health;
-    private const int STARTING_HEALTH = 100;
+    private const int STARTING_HEALTH = 150;
     private int currentCheckpointNum;
     private Vector3 currentDestination;
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
@@ -97,11 +97,16 @@ public class EnemyScript : MonoBehaviour
         nmAgent.speed = 0;
         theAnimator.SetBool("Dead", true);
         GameObject.Find("EnemyGroupCenter").GetComponent<EnemyGroupScript>().killAnEnemy(this.index);
+        GameObject healthBar = transform.Find("HealthBar").gameObject;
+        GameObject healthBarFiller = transform.Find("HealthBar").Find("CurrentHealth").gameObject;
+        healthBarFiller.GetComponent<Renderer>().enabled = false;
+        healthBar.GetComponent<Renderer>().enabled = false;
     }
 
     public void hit(int DamageAmount)
     {
         health -= DamageAmount;
+        updateHealth();
     }
 
     public void SetPlayer(GameObject toSet)
@@ -122,5 +127,15 @@ public class EnemyScript : MonoBehaviour
     public void SetIndex(int i)
     {
         index = i;
+    }
+
+    private void updateHealth()
+    {
+        GameObject healthBar = transform.Find("HealthBar").Find("CurrentHealth").gameObject;
+        healthBar.transform.localScale = new Vector3((float)health / STARTING_HEALTH, 0.99f, 0.99f);
+        float newPosition = 5 - (((float)health / STARTING_HEALTH / 2) * 10);
+        if (newPosition < 0)
+            newPosition = 0f;
+        healthBar.transform.localPosition = (new Vector3(newPosition, -0.0001f, 0));
     }
 }

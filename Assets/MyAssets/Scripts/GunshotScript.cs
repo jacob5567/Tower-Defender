@@ -5,7 +5,7 @@ using UnityEngine;
 public class GunshotScript : MonoBehaviour
 {
     private const int COOLDOWN = 11;
-    private const int DAMAGE = 20;
+    private const int DAMAGE = 7;
     private int range;
     private const int RANGE_SHORT = 15;
     private const int RANGE_LONG = 25;
