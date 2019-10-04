@@ -5,13 +5,14 @@ using UnityEngine;
 public class TurretScript : MonoBehaviour
 {
     private const float FIRING_SPEED = 1f;
+    public int towerType;
     Animator theAnimator;
     public GameObject player;
     public GameObject EnemyGroupCenter;
     private GameObject currentTarget;
-    private const int DAMAGE = 10;
-    private const int FIRE_COOLDOWN_TIME = 30;
-    private const float RANGE = 10f;
+    private int damage;
+    private int fireCooldownTime;
+    private float range;
     private int cooldown;
     public GameObject targetingLine;
     private AudioSource firingSound;
@@ -22,6 +23,24 @@ public class TurretScript : MonoBehaviour
     void Start()
     {
         // isFiring = false;
+        switch (towerType)
+        {
+            case 1:
+                damage = 10;
+                fireCooldownTime = 30;
+                range = 15f;
+                break;
+            case 3:
+                damage = 2;
+                fireCooldownTime = 3;
+                range = 10f;
+                break;
+            default:
+                damage = 10;
+                fireCooldownTime = 30;
+                range = 15f;
+                break;
+        }
         firingSound = GetComponent<AudioSource>();
         audioToggle = false;
         cooldown = 0;
@@ -47,15 +66,15 @@ public class TurretScript : MonoBehaviour
                 closestChild = child;
             }
         }
-        if (closestChild != null && minimumDistance <= RANGE)
+        if (closestChild != null && minimumDistance <= range)
         {
             Vector3 targetPosition = new Vector3(closestChild.position.x, this.transform.position.y, closestChild.position.z);
             targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, minimumDistance));
             transform.LookAt(targetPosition);
             if (cooldown < 0)
             {
-                closestChild.gameObject.GetComponent<EnemyScript>().hit(DAMAGE);
-                cooldown = FIRE_COOLDOWN_TIME;
+                closestChild.gameObject.GetComponent<EnemyScript>().hit(damage);
+                cooldown = fireCooldownTime;
             }
             this.StartFiring();
         }

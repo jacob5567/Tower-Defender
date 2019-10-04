@@ -57,7 +57,17 @@ ModelImporter:
   - first:
       95: 9500000
     second: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 3d85cbf1761ef9046815e5277ed50f32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Turret_Temperature
+    second: {fileID: 2100000, guid: 54caaafa7f5bfe646898629928805a96, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -90,7 +100,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 0
