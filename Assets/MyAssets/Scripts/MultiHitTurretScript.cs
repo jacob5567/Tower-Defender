@@ -11,10 +11,11 @@ public class MultiHitTurretScript : MonoBehaviour
     public GameObject EnemyGroupCenter;
     private GameObject currentTarget;
     private int damage;
-    // private int fireCooldownTime;
+    private int fireCooldownTime;
     private float range;
     private int numBeams;
-    private List<int> cooldown;
+    // private List<int> cooldown;
+    private List<LaserEnemyClass> objects;
     public GameObject targetingLines;
     private AudioSource firingSound;
     private bool audioToggle;
@@ -28,22 +29,30 @@ public class MultiHitTurretScript : MonoBehaviour
         {
             case 6:
                 damage = 1;
+                fireCooldownTime = 2;
                 range = 10f;
                 numBeams = 3;
                 break;
             default:
                 damage = 1;
-                // fireCooldownTime = 30;
+                fireCooldownTime = 30;
                 range = 15f;
                 numBeams = 5;
                 break;
         }
         firingSound = GetComponent<AudioSource>();
         audioToggle = false;
-        cooldown = new List<int>();
-        for (int i = 0; i < numBeams; i++)
+        objects = new List<LaserEnemyClass>();
+        for (int j = 0; j < numBeams; j++)
         {
-            cooldown.Add(0);
+            objects.Add(new LaserEnemyClass());
+            objects[j].cooldown = 0;
+        }
+        int i = 0;
+        foreach (Transform line in targetingLines.transform)
+        {
+            objects[i].line = line;
+            i++;
         }
         theAnimator = GetComponent<Animator>();
         theAnimator.SetFloat("FiringSpeed", 0f);
@@ -54,63 +63,84 @@ public class MultiHitTurretScript : MonoBehaviour
     void Update()
     {
         // transform.Rotate(0, 1, 0);
-        for (int i = 0; i < numBeams; i++)
+        foreach (LaserEnemyClass o in objects)
         {
-            cooldown[i]--;
+            o.cooldown--;
         }
         float currentDistance;
-        List<Transform> closestChildren;
-        List<float> distances;
-        closestChildren = new List<Transform>();
-        distances = new List<float>();
-        for (int i = 0; i < numBeams; i++)
-        {
-            distances.Add(float.PositiveInfinity);
-        }
+        List<LaserEnemyClass> allEnemies = new List<LaserEnemyClass>();
         foreach (Transform child in EnemyGroupCenter.transform)
         {
             currentDistance = Vector3.Distance(child.transform.position, transform.position);
-            distances.Sort();
-            for (int i = 0; i < distances.Count; i++)
+            allEnemies.Add(new LaserEnemyClass(child, currentDistance));
+        }
+        allEnemies.Sort();
+        for (int i = 0; i < numBeams; i++)
+        {
+            if (i < allEnemies.Count)
             {
-                if (currentDistance < distances[i])
+                if (allEnemies[i].distance < range)
                 {
-                    distances.Insert(i, currentDistance);
-                    distances.RemoveAt(distances.Count - 1);
-                    closestChildren.Add(child);
-                    float maximum = 0;
-                    Transform farthestChild = null;
-                    foreach (Transform c in closestChildren)
-                    {
-                        if (Vector3.Distance(c.transform.position, transform.position) < maximum)
-                        {
-                            farthestChild = c;
-                        }
-                    }
-                    if (farthestChild != null)
-                    {
-                        closestChildren.Remove(farthestChild);
-                    }
+                    objects[i].assignEnemy(allEnemies[i]);
+                }
+                else
+                {
+                    objects[i].removeEnemy();
                 }
             }
         }
+        // for (int i = 0; i < distances.Count; i++)
+        // {
+        //     if (currentDistance < distances[i])
+        //     {
+        //         distances.Insert(i, currentDistance);
+        //         distances.RemoveAt(distances.Count - 1);
+        //         closestChildren.Add(child);
+        //         float maximum = 0;
+        //         Transform farthestChild = null;
+        //         foreach (Transform c in closestChildren)
+        //         {
+        //             if (Vector3.Distance(c.transform.position, transform.position) < maximum)
+        //             {
+        //                 farthestChild = c;
+        //             }
+        //         }
+        //         if (farthestChild != null)
+        //         {
+        //             closestChildren.Remove(farthestChild);
+        //         }
+        //     }
+        // }
         bool firing = false;
-        foreach (Transform c in closestChildren)
+        foreach (LaserEnemyClass obj in objects)
         {
-            if (Vector3.Distance(c.transform.position, transform.position) <= range)
+            if (obj.hasEnemy())
             {
                 firing = true;
-                foreach (Transform line in targetingLines.transform)
+                obj.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, Vector3.Distance(obj.enemy.transform.position, transform.position)));
+                if (obj.cooldown <= 0)
                 {
-                    if (line.GetComponent<LineRenderer>().GetPosition(1).z == 0)
-                    {
-                        line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, Vector3.Distance(c.transform.position, transform.position)));
-                        break;
-                    }
+                    obj.enemy.gameObject.GetComponent<EnemyScript>().hit(damage);
+                    obj.cooldown = fireCooldownTime;
                 }
-                c.gameObject.GetComponent<EnemyScript>().hit(damage);
             }
         }
+        // foreach (Transform c in closestChildren)
+        // {
+        //     if (Vector3.Distance(c.transform.position, transform.position) <= range)
+        //     {
+        //         firing = true;
+        //         foreach (Transform line in targetingLines.transform)
+        //         {
+        //             if (line.GetComponent<LineRenderer>().GetPosition(1).z == 0)
+        //             {
+        //                 line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, Vector3.Distance(c.transform.position, transform.position)));
+        //                 break;
+        //             }
+        //         }
+        //         c.gameObject.GetComponent<EnemyScript>().hit(damage);
+        //     }
+        // }
         if (firing)
         {
             this.StartFiring();
@@ -141,7 +171,7 @@ public class MultiHitTurretScript : MonoBehaviour
     public void StartFiring()
     {
         // isFiring = true;
-        theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
+        // theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
         if (!audioToggle)
         {
             firingSound.Play(0);
@@ -152,7 +182,7 @@ public class MultiHitTurretScript : MonoBehaviour
     public void StopFiring()
     {
         // isFiring = false;
-        theAnimator.SetFloat("FiringSpeed", 0f);
+        // theAnimator.SetFloat("FiringSpeed", 0f);
         firingSound.Pause();
         audioToggle = false;
     }

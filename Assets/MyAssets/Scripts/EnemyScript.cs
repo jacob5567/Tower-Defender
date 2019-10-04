@@ -12,7 +12,7 @@ public class EnemyScript : MonoBehaviour
     private bool atTower;
     public GameObject checkpoints;
     int health;
-    private const int STARTING_HEALTH = 1000;
+    private const int STARTING_HEALTH = 300;
     private int currentCheckpointNum;
     private Vector3 currentDestination;
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
