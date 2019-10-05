@@ -15,4 +15,10 @@ public class MainMenuScript : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+
+    void Start()
+    {
+        Cursor.visible = true;
+        Screen.lockCursor = false;
+    }
 }

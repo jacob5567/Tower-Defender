@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TowerScript : MonoBehaviour
 {
-    private const int TOWER_HEALTH = 1000;
+    private const int TOWER_HEALTH = 50;
     public int health;
     public Image healthBar;
 
@@ -21,6 +22,7 @@ public class TowerScript : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log("You Lose!");
+            SceneManager.LoadScene(0);
         }
     }
 
