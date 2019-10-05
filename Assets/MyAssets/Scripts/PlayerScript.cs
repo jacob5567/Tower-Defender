@@ -10,18 +10,33 @@ public class PlayerScript : MonoBehaviour
     public GameObject Turret4Prefab;
     public GameObject Turret6Prefab;
     public Camera mainCam;
+    public bool placementMode;
     // Start is called before the first frame update
     void Start()
     {
         mainCam = Camera.main;
+        placementMode = false;
+        GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Transform closestPedestal = findClosestPedestal();
-        if (closestPedestal != null)
-            GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
+        if (placementMode)
+        {
+            GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
+            Transform closestPedestal = findClosestPedestal();
+            if (closestPedestal != null)
+                GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
+        }
+        else
+        {
+            GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            placementMode = !placementMode;
+        }
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             buildTurret(1);
