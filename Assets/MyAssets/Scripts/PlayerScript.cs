@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
     {
         GameObject turret;
         Transform closestPedestal = findClosestPedestal();
+        closestPedestal.gameObject.GetComponent<PedestalScript>().fill();
         GameObject turretPrefab = null;
         switch (num)
         {
@@ -82,7 +83,7 @@ public class PlayerScript : MonoBehaviour
         foreach (Transform p in pedestals.transform)
         {
             currentDistance = Vector3.Distance(p.transform.position, transform.position);
-            if (currentDistance < minimumDistance)
+            if (currentDistance < minimumDistance && !p.gameObject.GetComponent<PedestalScript>().isFilled())
             {
                 minimumDistance = currentDistance;
                 closest = p;
