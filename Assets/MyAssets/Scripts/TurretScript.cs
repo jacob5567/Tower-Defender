@@ -49,8 +49,11 @@ public class TurretScript : MonoBehaviour
         firingSound = GetComponent<AudioSource>();
         audioToggle = false;
         cooldown = 0;
-        theAnimator = GetComponent<Animator>();
-        theAnimator.SetFloat("FiringSpeed", 0f);
+        if (towerType == 1)
+        {
+            theAnimator = GetComponent<Animator>();
+            theAnimator.SetFloat("FiringSpeed", 0f);
+        }
         this.StopFiring();
     }
 
@@ -93,7 +96,10 @@ public class TurretScript : MonoBehaviour
     public void StartFiring()
     {
         // isFiring = true;
-        theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
+        if (towerType == 1)
+        {
+            theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
+        }
         if (!audioToggle)
         {
             firingSound.Play(0);
@@ -104,7 +110,10 @@ public class TurretScript : MonoBehaviour
     public void StopFiring()
     {
         // isFiring = false;
-        theAnimator.SetFloat("FiringSpeed", 0f);
+        if (towerType == 1)
+        {
+            theAnimator.SetFloat("FiringSpeed", 0f);
+        }
         firingSound.Pause();
         audioToggle = false;
     }

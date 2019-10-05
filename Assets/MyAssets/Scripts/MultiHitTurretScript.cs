@@ -54,8 +54,8 @@ public class MultiHitTurretScript : MonoBehaviour
             objects[i].line = line;
             i++;
         }
-        theAnimator = GetComponent<Animator>();
-        theAnimator.SetFloat("FiringSpeed", 0f);
+        // theAnimator = GetComponent<Animator>();
+        // theAnimator.SetFloat("FiringSpeed", 0f);
         this.StopFiring();
     }
 
@@ -117,12 +117,16 @@ public class MultiHitTurretScript : MonoBehaviour
             if (obj.hasEnemy())
             {
                 firing = true;
-                obj.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, Vector3.Distance(obj.enemy.transform.position, transform.position)));
+                obj.line.GetComponent<LineRenderer>().SetPosition(1, transform.InverseTransformPoint(new Vector3(obj.enemy.transform.position.x, obj.enemy.transform.position.y - 0.5f, obj.enemy.transform.position.z)));// new Vector3(obj.enemy.transform.position.x, 0, Vector3.Distance(obj.enemy.transform.position, transform.position)));
                 if (obj.cooldown <= 0)
                 {
                     obj.enemy.gameObject.GetComponent<EnemyScript>().hit(damage);
                     obj.cooldown = fireCooldownTime;
                 }
+            }
+            else
+            {
+                obj.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(0, 0, 0));
             }
         }
         // foreach (Transform c in closestChildren)
