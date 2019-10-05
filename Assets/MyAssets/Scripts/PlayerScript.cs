@@ -11,51 +11,77 @@ public class PlayerScript : MonoBehaviour
     public GameObject Turret6Prefab;
     public GameObject gun;
     public Camera mainCam;
-    public bool placementMode;
+    public int modeState; // 0=gunmode; 1=turretselect; 2=placement
+    public int selectedTurret;
     // Start is called before the first frame update
     void Start()
     {
         mainCam = Camera.main;
         gun = GameObject.Find("Gun");
-        placementMode = false;
+        modeState = 0;
+        selectedTurret = 0;
         GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            placementMode = !placementMode;
-        }
-        if (placementMode)
-        {
-            GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
-            gun.SetActive(false);
-            Transform closestPedestal = findClosestPedestal();
-            if (closestPedestal != null)
-                GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
-            if (Input.GetKeyUp(KeyCode.Alpha1))
-            {
-                buildTurret(1);
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha2))
-            {
-                buildTurret(2);
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha3))
-            {
-                buildTurret(3);
-            }
-            else if (Input.GetKeyUp(KeyCode.Alpha4))
-            {
-                buildTurret(4);
-            }
-        }
-        else
+        if (modeState == 0)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(true);
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                modeState = 1;
+            }
+        }
+        else if (modeState == 1)
+        {
+            GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
+            gun.SetActive(false);
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                modeState = 0;
+            }
+            // TODO show graphic
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                selectedTurret = 1;
+                modeState = 2;
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                selectedTurret = 2;
+                modeState = 2;
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
+                selectedTurret = 3;
+                modeState = 2;
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                selectedTurret = 4;
+                modeState = 2;
+            }
+        }
+        else if (modeState == 2)
+        {
+            gun.SetActive(false);
+            GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
+            Transform closestPedestal = findClosestPedestal();
+            if (closestPedestal != null)
+                GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
+            if (Input.GetKeyUp(KeyCode.E) || Input.GetMouseButtonUp(1))
+            {
+                modeState = 0;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                buildTurret(selectedTurret);
+                selectedTurret = 0;
+                modeState = 0;
+            }
         }
     }
 
