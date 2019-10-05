@@ -9,7 +9,7 @@ public class EnemyGroupScript : MonoBehaviour
     public GameObject tower;
     public GameObject checkpoints;
     private List<GameObject> enemyList;
-    private const int SPAWN_RATE = 30; // a new enemy spawns every SPAWN_RATE frames
+    private const int SPAWN_RATE = 150; // a new enemy spawns every SPAWN_RATE frames
     private int spawnTimer;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;

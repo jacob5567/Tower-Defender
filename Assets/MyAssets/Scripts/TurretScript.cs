@@ -32,7 +32,7 @@ public class TurretScript : MonoBehaviour
                 break;
             case 3:
                 damage = 4;
-                fireCooldownTime = 3;
+                fireCooldownTime = 2;
                 range = 10f;
                 break;
             case 4:
