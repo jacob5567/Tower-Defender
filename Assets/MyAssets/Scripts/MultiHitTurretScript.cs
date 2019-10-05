@@ -136,4 +136,14 @@ public class MultiHitTurretScript : MonoBehaviour
         firingSound.Pause();
         audioToggle = false;
     }
+
+    public void SetPlayer(GameObject toSet)
+    {
+        player = toSet;
+    }
+
+    public void SetEnemyGroupCenter(GameObject toSet)
+    {
+        EnemyGroupCenter = toSet;
+    }
 }

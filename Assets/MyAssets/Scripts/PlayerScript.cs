@@ -59,11 +59,18 @@ public class PlayerScript : MonoBehaviour
                 Debug.Log("ERROR: NOT A VALID TURRET TYPE");
                 break;
         }
-        Debug.Log("here");
         turret = (GameObject)Instantiate(turretPrefab, closestPedestal.position, transform.rotation);
         turret.transform.parent = GameObject.Find("Turrets").transform;
-        turret.GetComponent<TurretScript>().SetPlayer(this.gameObject);
-        turret.GetComponent<TurretScript>().SetEnemyGroupCenter(GameObject.Find("EnemyGroupCenter"));
+        if (num != 4)
+        {
+            turret.GetComponent<TurretScript>().SetPlayer(this.gameObject);
+            turret.GetComponent<TurretScript>().SetEnemyGroupCenter(GameObject.Find("EnemyGroupCenter"));
+        }
+        else
+        {
+            turret.GetComponent<MultiHitTurretScript>().SetPlayer(this.gameObject);
+            turret.GetComponent<MultiHitTurretScript>().SetEnemyGroupCenter(GameObject.Find("EnemyGroupCenter"));
+        }
     }
 
     private Transform findClosestPedestal()
