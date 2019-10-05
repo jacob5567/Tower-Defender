@@ -9,15 +9,19 @@ public class PlayerScript : MonoBehaviour
     public GameObject Turret3Prefab;
     public GameObject Turret4Prefab;
     public GameObject Turret6Prefab;
+    public Camera mainCam;
     // Start is called before the first frame update
     void Start()
     {
-
+        mainCam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Transform closestPedestal = findClosestPedestal();
+        if (closestPedestal != null)
+            GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             buildTurret(1);
@@ -82,8 +86,8 @@ public class PlayerScript : MonoBehaviour
         float currentDistance = 0;
         foreach (Transform p in pedestals.transform)
         {
-            currentDistance = Vector3.Distance(p.transform.position, transform.position);
-            if (currentDistance < minimumDistance && !p.gameObject.GetComponent<PedestalScript>().isFilled())
+            currentDistance = Vector3.Distance(p.transform.position, mainCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 4.0f)));//transform.position);
+            if (currentDistance < minimumDistance && !p.gameObject.GetComponent<PedestalScript>().isFilled() && p.gameObject.GetComponent<PedestalScript>().isInFrame())
             {
                 minimumDistance = currentDistance;
                 closest = p;
