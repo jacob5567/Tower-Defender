@@ -42,8 +42,6 @@ public class GunshotScript : MonoBehaviour
             range = RANGE_SHORT;
         }
 
-
-
         cooldown--;
         if (Input.GetButtonDown("Fire1") && cooldown <= 0)
         {

@@ -9,12 +9,14 @@ public class PlayerScript : MonoBehaviour
     public GameObject Turret3Prefab;
     public GameObject Turret4Prefab;
     public GameObject Turret6Prefab;
+    public GameObject gun;
     public Camera mainCam;
     public bool placementMode;
     // Start is called before the first frame update
     void Start()
     {
         mainCam = Camera.main;
+        gun = GameObject.Find("Gun");
         placementMode = false;
         GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
     }
@@ -25,6 +27,7 @@ public class PlayerScript : MonoBehaviour
         if (placementMode)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
+            gun.SetActive(false);
             Transform closestPedestal = findClosestPedestal();
             if (closestPedestal != null)
                 GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
@@ -32,6 +35,7 @@ public class PlayerScript : MonoBehaviour
         else
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
+            gun.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.E))
         {
