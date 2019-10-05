@@ -139,4 +139,5 @@ public class EnemyScript : MonoBehaviour
             newPosition = 0f;
         healthBar.transform.localPosition = (new Vector3(newPosition, -0.0001f, 0));
     }
+
 }

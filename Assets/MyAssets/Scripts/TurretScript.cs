@@ -60,7 +60,6 @@ public class TurretScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // transform.Rotate(0, 1, 0);
         cooldown--;
         float currentDistance;
         float minimumDistance = float.PositiveInfinity;
@@ -116,5 +115,15 @@ public class TurretScript : MonoBehaviour
         }
         firingSound.Pause();
         audioToggle = false;
+    }
+
+    public void SetPlayer(GameObject toSet)
+    {
+        player = toSet;
+    }
+
+    public void SetEnemyGroupCenter(GameObject toSet)
+    {
+        EnemyGroupCenter = toSet;
     }
 }

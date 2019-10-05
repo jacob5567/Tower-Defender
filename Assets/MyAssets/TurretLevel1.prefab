@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da27a50ec6638a34fab6248fd57a1da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerType: 1
   player: {fileID: 0}
   EnemyGroupCenter: {fileID: 0}
   targetingLine: {fileID: 6673191332965899985}
