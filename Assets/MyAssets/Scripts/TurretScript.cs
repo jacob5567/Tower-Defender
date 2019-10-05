@@ -31,7 +31,7 @@ public class TurretScript : MonoBehaviour
                 range = 15f;
                 break;
             case 3:
-                damage = 2;
+                damage = 4;
                 fireCooldownTime = 3;
                 range = 10f;
                 break;
@@ -77,7 +77,7 @@ public class TurretScript : MonoBehaviour
         if (closestChild != null && minimumDistance <= range)
         {
             Vector3 targetPosition = new Vector3(closestChild.position.x, this.transform.position.y, closestChild.position.z);
-            targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, minimumDistance));
+            targetingLine.GetComponent<LineRenderer>().SetPosition(1, transform.InverseTransformPoint(closestChild.position));
             transform.LookAt(targetPosition);
             if (cooldown < 0)
             {

@@ -89,28 +89,6 @@ public class MultiHitTurretScript : MonoBehaviour
                 }
             }
         }
-        // for (int i = 0; i < distances.Count; i++)
-        // {
-        //     if (currentDistance < distances[i])
-        //     {
-        //         distances.Insert(i, currentDistance);
-        //         distances.RemoveAt(distances.Count - 1);
-        //         closestChildren.Add(child);
-        //         float maximum = 0;
-        //         Transform farthestChild = null;
-        //         foreach (Transform c in closestChildren)
-        //         {
-        //             if (Vector3.Distance(c.transform.position, transform.position) < maximum)
-        //             {
-        //                 farthestChild = c;
-        //             }
-        //         }
-        //         if (farthestChild != null)
-        //         {
-        //             closestChildren.Remove(farthestChild);
-        //         }
-        //     }
-        // }
         bool firing = false;
         foreach (LaserEnemyClass obj in objects)
         {
@@ -129,22 +107,6 @@ public class MultiHitTurretScript : MonoBehaviour
                 obj.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(0, 0, 0));
             }
         }
-        // foreach (Transform c in closestChildren)
-        // {
-        //     if (Vector3.Distance(c.transform.position, transform.position) <= range)
-        //     {
-        //         firing = true;
-        //         foreach (Transform line in targetingLines.transform)
-        //         {
-        //             if (line.GetComponent<LineRenderer>().GetPosition(1).z == 0)
-        //             {
-        //                 line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, Vector3.Distance(c.transform.position, transform.position)));
-        //                 break;
-        //             }
-        //         }
-        //         c.gameObject.GetComponent<EnemyScript>().hit(damage);
-        //     }
-        // }
         if (firing)
         {
             this.StartFiring();
@@ -153,23 +115,7 @@ public class MultiHitTurretScript : MonoBehaviour
         {
             this.StopFiring();
         }
-        // if (closestChild != null && minimumDistance <= range)
-        // {
-        //     Vector3 targetPosition = new Vector3(closestChild.position.x, this.transform.position.y, closestChild.position.z);
-        //     targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, minimumDistance));
-        //     transform.LookAt(targetPosition);
-        //     if (cooldown < 0)
-        //     {
-        //         closestChild.gameObject.GetComponent<EnemyScript>().hit(damage);
-        //         cooldown = fireCooldownTime;
-        //     }
-        //     this.StartFiring();
-        // }
-        // else
-        // {
-        //     targetingLine.GetComponent<LineRenderer>().SetPosition(1, new Vector3(-0.0425f, 0, 0));
-        //     this.StopFiring();
-        // }
+
     }
 
     public void StartFiring()
