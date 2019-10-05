@@ -26,7 +26,7 @@ public class TurretScript : MonoBehaviour
         switch (towerType)
         {
             case 1:
-                damage = 10;
+                damage = 15;
                 fireCooldownTime = 30;
                 range = 15f;
                 break;
