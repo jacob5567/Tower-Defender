@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
-    public GameObject TurretPrefab;
+    public GameObject Turret1Prefab;
+    public GameObject Turret3Prefab;
+    public GameObject Turret4Prefab;
+    public GameObject Turret6Prefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,15 +18,49 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
-            buildTurret();
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            buildTurret(1);
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            buildTurret(2);
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            buildTurret(3);
+        }
+        else if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            buildTurret(4);
+        }
     }
 
-    public void buildTurret()
+    public void buildTurret(int num)
     {
         GameObject turret;
         Transform closestPedestal = findClosestPedestal();
-        turret = (GameObject)Instantiate(TurretPrefab, closestPedestal.position, transform.rotation);
+        GameObject turretPrefab = null;
+        switch (num)
+        {
+            case 1:
+                turretPrefab = Turret1Prefab;
+                break;
+            case 2:
+                turretPrefab = Turret3Prefab;
+                break;
+            case 3:
+                turretPrefab = Turret4Prefab;
+                break;
+            case 4:
+                turretPrefab = Turret6Prefab;
+                break;
+            default:
+                Debug.Log("ERROR: NOT A VALID TURRET TYPE");
+                break;
+        }
+        Debug.Log("here");
+        turret = (GameObject)Instantiate(turretPrefab, closestPedestal.position, transform.rotation);
         turret.transform.parent = GameObject.Find("Turrets").transform;
         turret.GetComponent<TurretScript>().SetPlayer(this.gameObject);
         turret.GetComponent<TurretScript>().SetEnemyGroupCenter(GameObject.Find("EnemyGroupCenter"));
