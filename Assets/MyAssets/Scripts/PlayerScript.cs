@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PlayerScript : MonoBehaviour
     public GameObject Turret4Prefab;
     public GameObject Turret6Prefab;
     public GameObject gun;
+    public GameObject selectTurretText;
+    public GameObject confirmCancelIndicators;
+    public GameObject selectTurretNum;
     public Camera mainCam;
     public int modeState; // 0=gunmode; 1=turretselect; 2=placement
     public int selectedTurret;
@@ -30,6 +34,8 @@ public class PlayerScript : MonoBehaviour
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(true);
+            selectTurretText.SetActive(false);
+            confirmCancelIndicators.SetActive(false);
             if (Input.GetKeyUp(KeyCode.E))
             {
                 modeState = 1;
@@ -37,8 +43,10 @@ public class PlayerScript : MonoBehaviour
         }
         else if (modeState == 1)
         {
+            selectTurretText.SetActive(true);
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(false);
+            confirmCancelIndicators.SetActive(false);
             if (Input.GetKeyUp(KeyCode.E))
             {
                 modeState = 0;
@@ -67,6 +75,9 @@ public class PlayerScript : MonoBehaviour
         }
         else if (modeState == 2)
         {
+            confirmCancelIndicators.SetActive(true);
+            selectTurretNum.GetComponent<Text>().text = selectedTurret.ToString();
+            selectTurretText.SetActive(false);
             gun.SetActive(false);
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
             Transform closestPedestal = findClosestPedestal();
