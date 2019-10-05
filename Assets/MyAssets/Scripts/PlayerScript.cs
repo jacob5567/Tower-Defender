@@ -24,6 +24,10 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            placementMode = !placementMode;
+        }
         if (placementMode)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = true;
@@ -31,31 +35,27 @@ public class PlayerScript : MonoBehaviour
             Transform closestPedestal = findClosestPedestal();
             if (closestPedestal != null)
                 GameObject.Find("PlacementIndicator").transform.position = closestPedestal.position;
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                buildTurret(1);
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                buildTurret(2);
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
+                buildTurret(3);
+            }
+            else if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                buildTurret(4);
+            }
         }
         else
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            placementMode = !placementMode;
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            buildTurret(1);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            buildTurret(2);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            buildTurret(3);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha4))
-        {
-            buildTurret(4);
         }
     }
 
