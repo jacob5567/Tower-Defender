@@ -1,3 +1,6 @@
+// Jacob Faulk
+// This file reads in all the level info from a file and creates new Level objects based on that data.
+
 using System;
 using System.IO;
 using System.Collections;
@@ -6,9 +9,11 @@ using UnityEngine;
 
 public class LevelController
 {
-    public List<Level> levels;
-    private const int NUM_LEVELS = 20;
-    private int currentReadLine;
+    public List<Level> levels; // The list of all levels
+    private const int NUM_LEVELS = 20; // The total number of levels in the game
+    private int currentReadLine; // the current value of the line being read in from the file
+
+    // Reads in all the level data from "LevelData.txt", and creates the new level data based on that
     public LevelController()
     {
         levels = new List<Level>();
@@ -51,6 +56,7 @@ public class LevelController
         }
     }
 
+    // gets the Level object corresponding to a certain level number
     public Level getLevel(int levelNum)
     {
         return levels[levelNum - 1];

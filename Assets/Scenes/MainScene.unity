@@ -3113,7 +3113,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: e9714160ce34f2b4ab63ff8c27bd68e1, type: 3}
     - target: {fileID: 8200000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_Volume
-      value: 0.1
+      value: 0.125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
@@ -3250,7 +3250,9 @@ MonoBehaviour:
   enemyGroupCenter: {fileID: 8676900093548071649}
   turrets: {fileID: 1514253854}
   gun: {fileID: 2108153956}
-  tower: {fileID: 0}
+  gameAudio: {fileID: 1347922347}
+  tower: {fileID: 1880480563}
+  healthBar: {fileID: 1583852304}
 --- !u!1001 &466358811
 PrefabInstance:
   m_ObjectHideFlags: 0

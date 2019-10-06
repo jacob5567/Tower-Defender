@@ -1,24 +1,16 @@
-﻿using System.Collections;
+﻿// Jacob Faulk
+// The script representing the hitbox of the enemy. Reports damage to the enemy if hit.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HitboxScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // deducts (damageAmount) health from the enemy
+    public void DeductHealth(int damageAmount)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void DeductHealth(int DamageAmount)
-    {
-        transform.parent.gameObject.GetComponent<EnemyScript>().hit(DamageAmount);
+        transform.parent.gameObject.GetComponent<EnemyScript>().hit(damageAmount);
     }
 
 }

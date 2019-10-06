@@ -1,30 +1,33 @@
-﻿using System.Collections;
+﻿// Jacob Faulk
+// The script for an individual enemy. Controls movement, navigation, damage, health, attacks, etc.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
-    Animator theAnimator;
+    Animator theAnimator; // The animator for the walking, idle, and attacking animations
     public GameObject player;
     public GameObject tower;
     NavMeshAgent nmAgent;
-    private bool atTower;
-    public GameObject checkpoints;
-    int health;
-    private int startingHealth;
-    private int currentCheckpointNum;
-    private Vector3 currentDestination;
-    private const float TOWER_ATTACK_DISTANCE = 3.5f;
-    private const int ATTACK_CYCLE_LENGTH = 140;
-    private const int DAMAGE_TO_TOWER = 10;
-    private const int SPEED = 10;
-    private int moneyDrop;
-    private int attackCycleLocation;
-    private int index;
-    private bool moneyGiven;
+    private bool atTower; // True if the enemy has reached the tower
+    public GameObject checkpoints; // The GameObjects containing the checkpoints for the enemy to navigate
+    int health; // the current health of the enemy
+    private int startingHealth; // the maximum health of the enemy
+    private int currentCheckpointNum; // the index of the checkpoint that the enemy is navigating towards
+    private Vector3 currentDestination; // the point towards which the enemy is navigating, be it a checkpoint or a tower
+    private const float TOWER_ATTACK_DISTANCE = 3.5f; // The maximum distance between the enemy and the tower for the enemy to stop moving and start attacking
+    private const int ATTACK_CYCLE_LENGTH = 140; // The number of frames in between each attack
+    private const int DAMAGE_TO_TOWER = 10; // The amount of damage done to the tower per attack
+    private const int SPEED = 2; // The speed of the enemy
+    private int moneyDrop; // The amount of money given to the player after the enemy is defeated
+    private int attackCycleLocation; // The number of frames until the enemy attacks again.
+    private int index; // The index of this enemy in the list of all enemies
+    private bool moneyGiven; // true if the player has already been given money for defeating this enemy
 
-    // Use this for initialization
+    // sets the initial values and initializes the walking animation
     void Start()
     {
         moneyGiven = false;
@@ -40,7 +43,7 @@ public class EnemyScript : MonoBehaviour
         this.startWalking();
     }
 
-    // Update is called once per frame
+    // Monitors the health of the enemy, navigates between checkpoints and the tower, begins attack if close enough to tower
     void Update()
     {
         if (health <= 0)
@@ -84,17 +87,20 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    // begins the walking animation
     public void startWalking()
     {
         theAnimator.SetFloat("Speed", 1);
     }
 
+    // ends the walking animation
     public void stopWalking()
     {
         theAnimator.SetFloat("Speed", 0);
         nmAgent.speed = 0;
     }
 
+    // gives the player money for defeating this enemy, goes into death animation, destroys this gameobject, removes health bar
     public void die()
     {
         if (!moneyGiven)
@@ -111,12 +117,25 @@ public class EnemyScript : MonoBehaviour
         healthBar.GetComponent<Renderer>().enabled = false;
     }
 
-    public void hit(int DamageAmount)
+    // reduces health by (damageAmount) and updates the health bar to match
+    public void hit(int damageAmount)
     {
-        health -= DamageAmount;
+        health -= damageAmount;
         updateHealth();
     }
 
+    // updates the health bar above the enemies head to reflect the current health value of the enemy
+    private void updateHealth()
+    {
+        GameObject healthBar = transform.Find("HealthBar").Find("CurrentHealth").gameObject;
+        healthBar.transform.localScale = new Vector3((float)health / startingHealth, 0.99f, 0.99f);
+        float newPosition = 5 - (((float)health / startingHealth / 2) * 10);
+        if (newPosition < 0)
+            newPosition = 0f;
+        healthBar.transform.localPosition = (new Vector3(newPosition, -0.0001f, 0));
+    }
+
+    /* For the next section, a bunch of setters for the EnemyGroupScript to use */
     public void SetPlayer(GameObject toSet)
     {
         player = toSet;
@@ -137,16 +156,6 @@ public class EnemyScript : MonoBehaviour
         index = i;
     }
 
-    private void updateHealth()
-    {
-        GameObject healthBar = transform.Find("HealthBar").Find("CurrentHealth").gameObject;
-        healthBar.transform.localScale = new Vector3((float)health / startingHealth, 0.99f, 0.99f);
-        float newPosition = 5 - (((float)health / startingHealth / 2) * 10);
-        if (newPosition < 0)
-            newPosition = 0f;
-        healthBar.transform.localPosition = (new Vector3(newPosition, -0.0001f, 0));
-    }
-
     public void setStartingHealth(int starting)
     {
         startingHealth = starting;
@@ -156,5 +165,4 @@ public class EnemyScript : MonoBehaviour
     {
         moneyDrop = amount;
     }
-
 }

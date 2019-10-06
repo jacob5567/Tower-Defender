@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Jacob Faulk
+// This script controls many player actions, primarily building turrets.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,21 +10,23 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
 
+    /* TURRET PREFABS */
     public GameObject Turret1Prefab;
     public GameObject Turret3Prefab;
     public GameObject Turret4Prefab;
     public GameObject Turret6Prefab;
-    public GameObject gun;
-    public GameObject selectTurretText;
-    public GameObject confirmCancelIndicators;
-    public GameObject selectTurretNum;
-    public Camera mainCam;
-    public int modeState; // 0=gunmode; 1=turretselect; 2=placement
-    public int selectedTurret;
-    public int money;
-    public int level;
 
-    // Start is called before the first frame update
+    public GameObject gun; // the player's gun
+    public GameObject selectTurretText; // the text showing the turret numbers and the prices to build those turrets
+    public GameObject confirmCancelIndicators; // small indicators showing the player how to place or remove a turret
+    public GameObject selectTurretNum; // a small indicator over the crosshair showing which turret is selected to be built
+    public Camera mainCam; // the main camera
+    public int modeState; // 0=gun mode; 1=turret select mode; 2=turret placement mode
+    public int selectedTurret; // the type of turret selected (1, 2, 3, 4)
+    public int money; // the amount of money the player has for building turrets
+    public int level; // the current level of the game
+
+    // sets money to zero, level to one, and sets the placement indicator to not render, among other things
     void Start()
     {
         money = 0;
@@ -33,7 +38,8 @@ public class PlayerScript : MonoBehaviour
         GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
     }
 
-    // Update is called once per frame
+    // Updates the level and creates turrets if the player has enough money.
+    // The different states control whether the player is selecting a turret type, choosing where to place a turret, or shooting the gun
     void Update()
     {
         GameObject.Find("CoinCount").GetComponent<Text>().text = "$" + money.ToString();
@@ -139,6 +145,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // builds the specified type of turret in the indicated turret pedestal
     public void buildTurret(int num)
     {
         GameObject turret;
@@ -177,6 +184,8 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // finds the closest pedestal to a point in front of the player.
+    // The pedastal must be in the player's view and close to a point close in front of them.
     private Transform findClosestPedestal()
     {
         GameObject pedestals = GameObject.Find("Pedestals");

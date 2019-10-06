@@ -1,34 +1,35 @@
-﻿using System.Collections;
+﻿// Jacob Faulk
+// The script that controls the gun. Repositions it, controls the range, and damages the enemies it shoots.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GunshotScript : MonoBehaviour
 {
-    private const int COOLDOWN = 11;
-    private const int DAMAGE = 15;
-    private int range;
-    private const int RANGE_SHORT = 15;
-    private const int RANGE_LONG = 25;
-    public float targetDistance;
-    private AudioSource gunSound;
-    private Animation gunShotAnim;
+    private const int COOLDOWN = 11; // The minimum amount of frames in between each shot of the gun
+    private const int DAMAGE = 15; // the damage each shot does to an enemy
+    private int range; // the maximum range of the gun
+    private const int RANGE_SHORT = 15; // the range of the gun when hipfiring
+    private const int RANGE_LONG = 25; // the range of the gun when aiming down the sights of the gun
+    public float targetDistance; // the distance between the gun and the targer
+    private AudioSource gunSound; // the sound the gun makes when fired
+    private Animation gunShotAnim; // the kickback animation of the gun
     public GameObject player;
-    // private bool aimDownSights;
-    public int cooldown;
-    int layerMask = 1 << 8;
+    public int cooldown; // the number of frames until the player is able to fire again
+    int layerMask = 1 << 8; // specifies the layers that the gun is able to hit
 
-    // Start is called before the first frame update
+    // sets various variables and initializes the audio and the animation
     void Start()
     {
         range = RANGE_SHORT;
-        // aimDownSights = false;
         layerMask = ~layerMask;
         cooldown = 0;
         gunSound = GetComponent<AudioSource>();
         gunShotAnim = GetComponent<Animation>();
     }
 
-    // Update is called once per frame
+    // aims if the player holds right click, fires if the player presses left click, damages an enemy if it is hit
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -56,7 +57,6 @@ public class GunshotScript : MonoBehaviour
                     shot.transform.SendMessage("DeductHealth", DAMAGE, SendMessageOptions.DontRequireReceiver);
                 }
             }
-
 
             // sound and animation stuff
             gunSound.Play();

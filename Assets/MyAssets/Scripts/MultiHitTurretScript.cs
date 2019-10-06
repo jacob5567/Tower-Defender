@@ -1,31 +1,30 @@
-﻿using System.Collections;
+﻿// Jacob Faulk
+// This script controls the fourth type of turret because it has multiple targeting beams.
+// I felt that this turret functions differently enough from the others to justify giving it its own script.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MultiHitTurretScript : MonoBehaviour
 {
-    private const float FIRING_SPEED = 1f;
-    public int towerType;
-    Animator theAnimator;
-    public GameObject player;
-    public GameObject EnemyGroupCenter;
-    private GameObject currentTarget;
-    private int damage;
-    private int fireCooldownTime;
-    private float range;
-    private int numBeams;
-    // private List<int> cooldown;
-    private List<LaserEnemyClass> objects;
-    public GameObject targetingLines;
-    private AudioSource firingSound;
-    private bool audioToggle;
-    // private bool isFiring;
+    public int turretType; // The type of turret the script is bound to. This should always be 6.
+    public GameObject player; // The FPSController
+    public GameObject EnemyGroupCenter; // The GameObject that spawns and controls all the enemies.
+    private int damage; // The amount of damage that the turret deals per beam.
+    private int fireCooldownTime; // The rate at which the turret applies its damage. Damage is applied every fireCooldownTime frames.
+    private float range; // The maximum distance an enemy can be for the turret to damage it.
+    private int numBeams; // The number of separate damaging beams the turret has.
+    private List<LaserEnemyClass> objects; // A list of the three damaging beams and their targeted enemies.
+    public GameObject targetingLines; // The GameObject that holds all the targeting lines.
+    private AudioSource firingSound; // The sound that the turret makes when firing.
+    private bool audioToggle; // Used to make sure that the audio doesn't play every frame.
 
-    // Start is called before the first frame update
+    // Sets the damage, cooldown and range values based on the type of turret it is. Initializes various other variables.
+    // Begins to set up the laser-enemy connections.
     void Start()
     {
-        // isFiring = false;
-        switch (towerType)
+        switch (turretType)
         {
             case 6:
                 damage = 1;
@@ -54,19 +53,20 @@ public class MultiHitTurretScript : MonoBehaviour
             objects[i].line = line;
             i++;
         }
-        // theAnimator = GetComponent<Animator>();
-        // theAnimator.SetFloat("FiringSpeed", 0f);
         this.StopFiring();
     }
 
-    // Update is called once per frame
+    // Detects the nearest three enemies and fires on them if they are in range.
+    // Calculates how to show each line connecting the tower and the enemy.
     void Update()
     {
-        // transform.Rotate(0, 1, 0);
+        // decrease the cooldown for each laser individually
         foreach (LaserEnemyClass o in objects)
         {
             o.cooldown--;
         }
+
+        // get references to all enemies and their distances from the turret
         float currentDistance;
         List<LaserEnemyClass> allEnemies = new List<LaserEnemyClass>();
         foreach (Transform child in EnemyGroupCenter.transform)
@@ -74,6 +74,8 @@ public class MultiHitTurretScript : MonoBehaviour
             currentDistance = Vector3.Distance(child.transform.position, transform.position);
             allEnemies.Add(new LaserEnemyClass(child, currentDistance));
         }
+
+        // sort the enemies by proximity to tower and assigns lasers to the closest (numBeams) in range
         allEnemies.Sort();
         for (int i = 0; i < numBeams; i++)
         {
@@ -89,13 +91,15 @@ public class MultiHitTurretScript : MonoBehaviour
                 }
             }
         }
+
+        // sets the correct position for each laser visually and damages each enemy
         bool firing = false;
         foreach (LaserEnemyClass obj in objects)
         {
             if (obj.hasEnemy())
             {
                 firing = true;
-                obj.line.GetComponent<LineRenderer>().SetPosition(1, transform.InverseTransformPoint(new Vector3(obj.enemy.transform.position.x, obj.enemy.transform.position.y - 0.5f, obj.enemy.transform.position.z)));// new Vector3(obj.enemy.transform.position.x, 0, Vector3.Distance(obj.enemy.transform.position, transform.position)));
+                obj.line.GetComponent<LineRenderer>().SetPosition(1, transform.InverseTransformPoint(new Vector3(obj.enemy.transform.position.x, obj.enemy.transform.position.y - 0.5f, obj.enemy.transform.position.z)));
                 if (obj.cooldown <= 0)
                 {
                     obj.enemy.gameObject.GetComponent<EnemyScript>().hit(damage);
@@ -107,6 +111,8 @@ public class MultiHitTurretScript : MonoBehaviour
                 obj.line.GetComponent<LineRenderer>().SetPosition(1, new Vector3(0, 0, 0));
             }
         }
+
+        // plays the firing sound if at least one of the beams is currently damaging an enemy
         if (firing)
         {
             this.StartFiring();
@@ -118,10 +124,9 @@ public class MultiHitTurretScript : MonoBehaviour
 
     }
 
+    // plays the firing sound
     public void StartFiring()
     {
-        // isFiring = true;
-        // theAnimator.SetFloat("FiringSpeed", FIRING_SPEED);
         if (!audioToggle)
         {
             firingSound.Play(0);
@@ -129,19 +134,20 @@ public class MultiHitTurretScript : MonoBehaviour
         }
     }
 
+    // stops the firing sound
     public void StopFiring()
     {
-        // isFiring = false;
-        // theAnimator.SetFloat("FiringSpeed", 0f);
         firingSound.Pause();
         audioToggle = false;
     }
 
+    // sets the player GameObject to the specified GameObject
     public void SetPlayer(GameObject toSet)
     {
         player = toSet;
     }
 
+    // sets the EnemyGroupCenter GameObject to the specified GameObject
     public void SetEnemyGroupCenter(GameObject toSet)
     {
         EnemyGroupCenter = toSet;
