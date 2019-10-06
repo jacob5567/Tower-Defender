@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e167926e127f1f428d036c4399aa8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 6
+  turretType: 6
   player: {fileID: 0}
   EnemyGroupCenter: {fileID: 0}
   targetingLines: {fileID: 6380547840859076623}

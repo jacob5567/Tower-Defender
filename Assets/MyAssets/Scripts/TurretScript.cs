@@ -81,6 +81,7 @@ public class TurretScript : MonoBehaviour
             transform.LookAt(targetPosition);
             if (cooldown < 0)
             {
+                Debug.Log(("turretDamage: " + damage.ToString()));
                 closestChild.gameObject.GetComponent<EnemyScript>().hit(damage);
                 cooldown = fireCooldownTime;
             }

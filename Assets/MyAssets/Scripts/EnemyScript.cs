@@ -121,6 +121,7 @@ public class EnemyScript : MonoBehaviour
     public void hit(int damageAmount)
     {
         health -= damageAmount;
+        Debug.Log(damageAmount);
         updateHealth();
     }
 
