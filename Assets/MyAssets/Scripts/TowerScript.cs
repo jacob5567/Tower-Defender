@@ -21,8 +21,7 @@ public class TowerScript : MonoBehaviour
     {
         if (health <= 0)
         {
-            Debug.Log("You Lose!");
-            SceneManager.LoadScene(0);
+            GameObject.Find("Canvas").GetComponent<PauseMenuScript>().gameOver();
         }
     }
 
@@ -40,6 +39,5 @@ public class TowerScript : MonoBehaviour
     private void updateHealth()
     {
         healthBar.transform.localScale = new Vector3((float)health / TOWER_HEALTH, 1f, 1f);
-        // healthBar.transform.localPosition = (new Vector3(5 - (((float)health / TOWER_HEALTH / 2) * 10), 0, 0));
     }
 }

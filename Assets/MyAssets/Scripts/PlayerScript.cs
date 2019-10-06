@@ -62,7 +62,7 @@ public class PlayerScript : MonoBehaviour
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(false);
             confirmCancelIndicators.SetActive(false);
-            if (Input.GetKeyUp(KeyCode.E) || Input.GetMouseButtonUp(1))
+            if (Input.GetKeyUp(KeyCode.E) || Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0))
             {
                 modeState = 0;
             }

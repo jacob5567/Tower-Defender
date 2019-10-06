@@ -18,7 +18,7 @@ public class EnemyScript : MonoBehaviour
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
     private const int ATTACK_CYCLE_LENGTH = 140;
     private const int DAMAGE_TO_TOWER = 10;
-    private const int SPEED = 2;
+    private const int SPEED = 10;
     private int moneyDrop;
     private int attackCycleLocation;
     private int index;
