@@ -18,6 +18,7 @@ public class EnemyGroupScript : MonoBehaviour
     private Quaternion spawnRotation;
     private LevelController levelController;
     private int currentIndex;
+    private int moneyDrop;
 
     public void generateEnemy()
     {
@@ -33,6 +34,7 @@ public class EnemyGroupScript : MonoBehaviour
         {
             spawnRate = 100;
             currentStartingHealth += 50;
+            moneyDrop += 10;
         }
 
 
@@ -45,6 +47,7 @@ public class EnemyGroupScript : MonoBehaviour
         enemy.GetComponent<EnemyScript>().SetCheckpoints(checkpoints);
         enemy.GetComponent<EnemyScript>().SetIndex(currentIndex);
         enemy.GetComponent<EnemyScript>().setStartingHealth(currentStartingHealth);
+        enemy.GetComponent<EnemyScript>().setMoneyDrop(moneyDrop);
         currentIndex++;
         totalEnemies++;
         enemyList.Add(enemy); //Add the new enemy to the List
@@ -52,6 +55,7 @@ public class EnemyGroupScript : MonoBehaviour
 
     void Start()
     {
+        moneyDrop = 50;
         levelController = new LevelController();
         spawnRate = levelController.getLevel(1).getSpawnRate();
         currentStartingHealth = levelController.getLevel(1).getEnemyHealth();

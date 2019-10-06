@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour
     private const int ATTACK_CYCLE_LENGTH = 140;
     private const int DAMAGE_TO_TOWER = 10;
     private const int SPEED = 2;
+    private int moneyDrop;
     private int attackCycleLocation;
     private int index;
     private bool moneyGiven;
@@ -46,7 +47,6 @@ public class EnemyScript : MonoBehaviour
         {
             die();
         }
-        // Debug.Log(currentCheckpointNum);
         if (currentCheckpointNum < checkpoints.GetComponent<CheckpointsScript>().getNumCheckpoints())
         {
             currentDestination = checkpoints.GetComponent<CheckpointsScript>().getNextCheckpoint(currentCheckpointNum);
@@ -99,7 +99,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (!moneyGiven)
         {
-            player.GetComponent<PlayerScript>().money += 50;
+            player.GetComponent<PlayerScript>().money += moneyDrop;
             moneyGiven = true;
         }
         nmAgent.speed = 0;
@@ -150,6 +150,11 @@ public class EnemyScript : MonoBehaviour
     public void setStartingHealth(int starting)
     {
         startingHealth = starting;
+    }
+
+    public void setMoneyDrop(int amount)
+    {
+        moneyDrop = amount;
     }
 
 }
