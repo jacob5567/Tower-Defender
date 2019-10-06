@@ -19,10 +19,13 @@ public class PlayerScript : MonoBehaviour
     public int modeState; // 0=gunmode; 1=turretselect; 2=placement
     public int selectedTurret;
     public int money;
+    public int level;
+
     // Start is called before the first frame update
     void Start()
     {
         money = 0;
+        level = 1;
         mainCam = Camera.main;
         gun = GameObject.Find("Gun");
         modeState = 0;
@@ -38,6 +41,7 @@ public class PlayerScript : MonoBehaviour
             SceneManager.LoadScene(0);
         }
         GameObject.Find("CoinCount").GetComponent<Text>().text = "$" + money.ToString();
+        GameObject.Find("LevelNum").GetComponent<Text>().text = "Level " + level.ToString();
         if (modeState == 0)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;

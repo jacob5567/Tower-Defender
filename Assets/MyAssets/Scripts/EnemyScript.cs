@@ -12,7 +12,7 @@ public class EnemyScript : MonoBehaviour
     private bool atTower;
     public GameObject checkpoints;
     int health;
-    private const int STARTING_HEALTH = 500;
+    private int startingHealth;
     private int currentCheckpointNum;
     private Vector3 currentDestination;
     private const float TOWER_ATTACK_DISTANCE = 3.5f;
@@ -27,7 +27,7 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         moneyGiven = false;
-        health = STARTING_HEALTH;
+        health = startingHealth;
         currentCheckpointNum = 0;
         attackCycleLocation = -1;
         theAnimator = GetComponent<Animator>(); //get handle to the Animator
@@ -140,11 +140,16 @@ public class EnemyScript : MonoBehaviour
     private void updateHealth()
     {
         GameObject healthBar = transform.Find("HealthBar").Find("CurrentHealth").gameObject;
-        healthBar.transform.localScale = new Vector3((float)health / STARTING_HEALTH, 0.99f, 0.99f);
-        float newPosition = 5 - (((float)health / STARTING_HEALTH / 2) * 10);
+        healthBar.transform.localScale = new Vector3((float)health / startingHealth, 0.99f, 0.99f);
+        float newPosition = 5 - (((float)health / startingHealth / 2) * 10);
         if (newPosition < 0)
             newPosition = 0f;
         healthBar.transform.localPosition = (new Vector3(newPosition, -0.0001f, 0));
+    }
+
+    public void setStartingHealth(int starting)
+    {
+        startingHealth = starting;
     }
 
 }

@@ -717,7 +717,7 @@ MonoBehaviour:
   m_text: Keep the Tower alive for as long as possible by placing turrets on any of
     the pedestals and using your equipped gun. Each time you defeat an enemy, you
     get coins to spend on additional turrets. Place a turret by pressing E, selecting
-    the turret type by pressin 1-4, and then clicking to place. Prepare for future
+    the turret type by pressing 1-4, and then clicking to place. Prepare for future
     waves, as the spawn rate and health of the enemies increase over time.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

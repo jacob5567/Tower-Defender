@@ -9,15 +9,33 @@ public class EnemyGroupScript : MonoBehaviour
     public GameObject tower;
     public GameObject checkpoints;
     private List<GameObject> enemyList;
-    private const int SPAWN_RATE = 150; // a new enemy spawns every SPAWN_RATE frames
+    private int spawnRate; // a new enemy spawns every spawnRate frames
+    private int currentStartingHealth;
+    // private int spawnRateChangeRate = 2; // the spawn rate increases every SPAWN_RATE_CHANGE_RATE enemies
+    private int levelChangeTimer;
     private int spawnTimer;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+    private LevelController levelController;
     private int currentIndex;
 
     public void generateEnemy()
     {
-        spawnTimer = 0;
+        levelChangeTimer--;
+        if (levelChangeTimer <= 0 && player.GetComponent<PlayerScript>().level < 20)
+        {
+            player.GetComponent<PlayerScript>().level++;
+            spawnRate = levelController.getLevel(player.GetComponent<PlayerScript>().level).getSpawnRate();
+            currentStartingHealth = levelController.getLevel(player.GetComponent<PlayerScript>().level).getEnemyHealth();
+            levelChangeTimer = levelController.getLevel(player.GetComponent<PlayerScript>().level).getNumEnemies();
+        }
+        else if (levelChangeTimer <= 0 && player.GetComponent<PlayerScript>().level >= 20)
+        {
+            spawnRate = 100;
+            currentStartingHealth += 50;
+        }
+
+
         GameObject enemy;
         //Create a new EnemyPrefab at enemyPos with the same orientation as Main Camera
         enemy = (GameObject)Instantiate(EnemyPrefab, spawnPosition, spawnRotation);
@@ -26,6 +44,7 @@ public class EnemyGroupScript : MonoBehaviour
         enemy.GetComponent<EnemyScript>().SetTower(tower);
         enemy.GetComponent<EnemyScript>().SetCheckpoints(checkpoints);
         enemy.GetComponent<EnemyScript>().SetIndex(currentIndex);
+        enemy.GetComponent<EnemyScript>().setStartingHealth(currentStartingHealth);
         currentIndex++;
         totalEnemies++;
         enemyList.Add(enemy); //Add the new enemy to the List
@@ -33,6 +52,12 @@ public class EnemyGroupScript : MonoBehaviour
 
     void Start()
     {
+        levelController = new LevelController();
+        spawnRate = levelController.getLevel(1).getSpawnRate();
+        currentStartingHealth = levelController.getLevel(1).getEnemyHealth();
+        levelChangeTimer = levelController.getLevel(1).getNumEnemies();
+        spawnTimer = 0;
+
         totalEnemies = 0;
         currentIndex = 0;
         spawnPosition = transform.position;
@@ -46,7 +71,7 @@ public class EnemyGroupScript : MonoBehaviour
         if (spawnTimer <= 0)
         {
             generateEnemy();
-            spawnTimer = SPAWN_RATE;
+            spawnTimer = spawnRate;
         }
     }
 

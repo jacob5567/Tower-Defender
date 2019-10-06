@@ -19,6 +19,6 @@ public class MainMenuScript : MonoBehaviour
     void Start()
     {
         Cursor.visible = true;
-        Screen.lockCursor = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }

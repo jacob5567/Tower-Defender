@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TowerScript : MonoBehaviour
 {
-    private const int TOWER_HEALTH = 50;
+    private const int TOWER_HEALTH = 500;
     public int health;
     public Image healthBar;
 
