@@ -18,9 +18,11 @@ public class PlayerScript : MonoBehaviour
     public Camera mainCam;
     public int modeState; // 0=gunmode; 1=turretselect; 2=placement
     public int selectedTurret;
+    public int money;
     // Start is called before the first frame update
     void Start()
     {
+        money = 0;
         mainCam = Camera.main;
         gun = GameObject.Find("Gun");
         modeState = 0;
@@ -35,6 +37,7 @@ public class PlayerScript : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        GameObject.Find("CoinCount").GetComponent<Text>().text = "$" + money.ToString();
         if (modeState == 0)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
@@ -52,30 +55,41 @@ public class PlayerScript : MonoBehaviour
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
             gun.SetActive(false);
             confirmCancelIndicators.SetActive(false);
-            if (Input.GetKeyUp(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E) || Input.GetMouseButtonUp(1))
             {
                 modeState = 0;
             }
-            // TODO show graphic
             if (Input.GetKeyUp(KeyCode.Alpha1))
             {
-                selectedTurret = 1;
-                modeState = 2;
+                if (money >= 100)
+                {
+                    selectedTurret = 1;
+                    modeState = 2;
+                }
             }
             else if (Input.GetKeyUp(KeyCode.Alpha2))
             {
-                selectedTurret = 2;
-                modeState = 2;
+                if (money >= 300)
+                {
+                    selectedTurret = 2;
+                    modeState = 2;
+                }
             }
             else if (Input.GetKeyUp(KeyCode.Alpha3))
             {
-                selectedTurret = 3;
-                modeState = 2;
+                if (money >= 400)
+                {
+                    selectedTurret = 3;
+                    modeState = 2;
+                }
             }
             else if (Input.GetKeyUp(KeyCode.Alpha4))
             {
-                selectedTurret = 4;
-                modeState = 2;
+                if (money >= 600)
+                {
+                    selectedTurret = 4;
+                    modeState = 2;
+                }
             }
         }
         else if (modeState == 2)
@@ -95,6 +109,23 @@ public class PlayerScript : MonoBehaviour
             else if (Input.GetMouseButtonUp(0))
             {
                 buildTurret(selectedTurret);
+                switch (selectedTurret)
+                {
+                    case 1:
+                        money -= 100;
+                        break;
+                    case 2:
+                        money -= 300;
+                        break;
+                    case 3:
+                        money -= 400;
+                        break;
+                    case 4:
+                        money -= 600;
+                        break;
+                    default:
+                        break;
+                }
                 selectedTurret = 0;
                 modeState = 0;
             }

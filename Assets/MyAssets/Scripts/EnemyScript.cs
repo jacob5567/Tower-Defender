@@ -21,10 +21,12 @@ public class EnemyScript : MonoBehaviour
     private const int SPEED = 2;
     private int attackCycleLocation;
     private int index;
+    private bool moneyGiven;
 
     // Use this for initialization
     void Start()
     {
+        moneyGiven = false;
         health = STARTING_HEALTH;
         currentCheckpointNum = 0;
         attackCycleLocation = -1;
@@ -95,6 +97,11 @@ public class EnemyScript : MonoBehaviour
 
     public void die()
     {
+        if (!moneyGiven)
+        {
+            player.GetComponent<PlayerScript>().money += 50;
+            moneyGiven = true;
+        }
         nmAgent.speed = 0;
         theAnimator.SetBool("Dead", true);
         GameObject.Find("EnemyGroupCenter").GetComponent<EnemyGroupScript>().killAnEnemy(this.index);
