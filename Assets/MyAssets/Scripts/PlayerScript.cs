@@ -45,7 +45,7 @@ public class PlayerScript : MonoBehaviour
         GameObject.Find("CoinCount").GetComponent<Text>().text = "$" + money.ToString();
         if (level <= 20)
         {
-            GameObject.Find("LevelNum").GetComponent<Text>().text = "Level " + level.ToString();
+            GameObject.Find("LevelNum").GetComponent<Text>().text = "Wave " + level.ToString();
         }
         else
         {

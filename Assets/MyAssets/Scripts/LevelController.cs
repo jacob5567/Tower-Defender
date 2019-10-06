@@ -21,7 +21,7 @@ public class LevelController
         currentReadLine = 0;
         try
         {
-            using (StreamReader sr = new StreamReader("LevelData.txt"))
+            using (StreamReader sr = new StreamReader("Assets/MyAssets/LevelData.txt"))
             {
                 do
                 {

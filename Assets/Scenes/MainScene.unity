@@ -3115,6 +3115,14 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 2000000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: field of view
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2000000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: near clip plane
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
 --- !u!4 &459882183 stripped
@@ -5250,7 +5258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 8676900093847797205, guid: 6fd6aad8b7ca13a4f9cec5b2dafec096,
     type: 3}
-  totalEnemies: 0
   player: {fileID: 1017133495}
   tower: {fileID: 1880480563}
   checkpoints: {fileID: 1126633574}
