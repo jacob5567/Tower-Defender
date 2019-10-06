@@ -13,47 +13,30 @@ public class LevelController
     private const int NUM_LEVELS = 20; // The total number of levels in the game
     private int currentReadLine; // the current value of the line being read in from the file
 
-    // Reads in all the level data from "LevelData.txt", and creates the new level data based on that
+    // Hardcoded level data
     public LevelController()
     {
         levels = new List<Level>();
-        //read input from level file
-        currentReadLine = 0;
-        try
-        {
-            using (StreamReader sr = new StreamReader("Assets/MyAssets/LevelData.txt"))
-            {
-                do
-                {
-                    currentReadLine++;
-                    string line = sr.ReadLine();
-                    switch (currentReadLine)
-                    {
-                        case 1:
-                            levels.Add(new Level(Int32.Parse(line)));
-                            break;
-                        case 2:
-                            levels[levels.Count - 1].numEnemies = Int32.Parse(line);
-                            break;
-                        case 3:
-                            levels[levels.Count - 1].enemyHealth = Int32.Parse(line);
-                            break;
-                        case 4:
-                            levels[levels.Count - 1].spawnRate = Int32.Parse(line);
-                            currentReadLine = 0;
-                            break;
-                        default:
-                            Debug.Log("ERROR IN READING FILE");
-                            break;
-                    }
-                } while (!sr.EndOfStream);
-            }
-        }
-        catch (IOException e)
-        {
-            Debug.Log("The file could not be read:");
-            Debug.Log(e.Message);
-        }
+        levels.Add(new Level(1, 3, 200, 400));
+        levels.Add(new Level(2, 5, 300, 300));
+        levels.Add(new Level(3, 10, 400, 200));
+        levels.Add(new Level(4, 10, 500, 150));
+        levels.Add(new Level(5, 1, 2000, 1000));
+        levels.Add(new Level(6, 15, 600, 150));
+        levels.Add(new Level(7, 15, 750, 150));
+        levels.Add(new Level(8, 20, 900, 150));
+        levels.Add(new Level(9, 15, 1000, 150));
+        levels.Add(new Level(10, 1, 5000, 1000));
+        levels.Add(new Level(11, 20, 1250, 150));
+        levels.Add(new Level(12, 20, 1500, 100));
+        levels.Add(new Level(13, 15, 1750, 150));
+        levels.Add(new Level(14, 20, 1750, 100));
+        levels.Add(new Level(15, 1, 10000, 1000));
+        levels.Add(new Level(16, 20, 2000, 150));
+        levels.Add(new Level(17, 25, 1500, 50));
+        levels.Add(new Level(18, 15, 2500, 150));
+        levels.Add(new Level(19, 1, 30000, 1000));
+        levels.Add(new Level(20, 30, 2500, 100));
     }
 
     // gets the Level object corresponding to a certain level number
