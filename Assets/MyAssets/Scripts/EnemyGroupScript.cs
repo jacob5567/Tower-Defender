@@ -32,6 +32,7 @@ public class EnemyGroupScript : MonoBehaviour
         }
         else if (levelChangeTimer <= 0 && player.GetComponent<PlayerScript>().level >= 20)
         {
+            player.GetComponent<PlayerScript>().level++;
             spawnRate = 100;
             currentStartingHealth += 50;
             moneyDrop += 10;

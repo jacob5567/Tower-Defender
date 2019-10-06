@@ -36,12 +36,15 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-        }
         GameObject.Find("CoinCount").GetComponent<Text>().text = "$" + money.ToString();
-        GameObject.Find("LevelNum").GetComponent<Text>().text = "Level " + level.ToString();
+        if (level <= 20)
+        {
+            GameObject.Find("LevelNum").GetComponent<Text>().text = "Level " + level.ToString();
+        }
+        else
+        {
+            GameObject.Find("LevelNum").GetComponent<Text>().text = "Endless";
+        }
         if (modeState == 0)
         {
             GameObject.Find("PlacementIndicator").GetComponent<Renderer>().enabled = false;
